@@ -108,4 +108,4 @@ def make_pred_multilabel(data_transforms, model, PATH_TO_IMAGES):
 
     pred_df.to_csv("results/preds.csv", index=False)
     auc_df.to_csv("results/aucs.csv", index=False)
-    return pred_df, auc_df
+    return pred_df, true_df, auc_df
