@@ -8,6 +8,7 @@ import sklearn
 import sklearn.metrics as sklm
 from torch.autograd import Variable
 import numpy as np
+import os
 
 
 def make_pred_multilabel(data_transforms, model, PATH_TO_IMAGES, nih_labels, num_loader_workers):
@@ -107,7 +108,9 @@ def make_pred_multilabel(data_transforms, model, PATH_TO_IMAGES, nih_labels, num
         except BaseException:
             print("can't calculate auc for " + str(column))
         auc_df = auc_df.append(thisrow, ignore_index=True)
-
+    
+    if not os.path.exists('results'):
+        os.makedirs('results')
     pred_df.to_csv("results/preds.csv", index=False)
     auc_df.to_csv("results/aucs.csv", index=False)
     return pred_df, true_df, auc_df
