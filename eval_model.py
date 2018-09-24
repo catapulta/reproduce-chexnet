@@ -10,7 +10,7 @@ from torch.autograd import Variable
 import numpy as np
 
 
-def make_pred_multilabel(data_transforms, model, PATH_TO_IMAGES):
+def make_pred_multilabel(data_transforms, model, PATH_TO_IMAGES, nih_labels):
     """
     Gives predictions for test fold and calculates AUCs using previously trained model
 
@@ -33,7 +33,9 @@ def make_pred_multilabel(data_transforms, model, PATH_TO_IMAGES):
     dataset = CXR.CXRDataset(
         path_to_images=PATH_TO_IMAGES,
         fold="test",
-        transform=data_transforms['val'])
+        transform=data_transforms['val'],
+        nih_labels=nih_labels
+        )
     dataloader = torch.utils.data.DataLoader(
         dataset, BATCH_SIZE, shuffle=False, num_workers=8)
     size = len(dataset)
