@@ -14,11 +14,13 @@ class CXRDataset(Dataset):
             transform=None,
             sample=0,
             finding="any",
+            nih_labels=None,
             starter_images=False):
 
         self.transform = transform
         self.path_to_images = path_to_images
-        self.df = pd.read_csv("nih_labels.csv")
+        if nih_labels is None:
+            self.df = pd.read_csv("nih_labels.csv")
         self.df = self.df[self.df['fold'] == fold]
 
         if(starter_images):
