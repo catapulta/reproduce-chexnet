@@ -10,7 +10,7 @@ from torch.autograd import Variable
 import numpy as np
 
 
-def make_pred_multilabel(data_transforms, model, PATH_TO_IMAGES, nih_labels):
+def make_pred_multilabel(data_transforms, model, PATH_TO_IMAGES, nih_labels, num_loader_workers):
     """
     Gives predictions for test fold and calculates AUCs using previously trained model
 
@@ -37,7 +37,7 @@ def make_pred_multilabel(data_transforms, model, PATH_TO_IMAGES, nih_labels):
         nih_labels=nih_labels
         )
     dataloader = torch.utils.data.DataLoader(
-        dataset, BATCH_SIZE, shuffle=False, num_workers=8)
+        dataset, BATCH_SIZE, shuffle=False, num_workers=num_loader_workers)
     size = len(dataset)
 
     # create empty dfs
