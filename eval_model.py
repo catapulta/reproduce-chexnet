@@ -41,13 +41,14 @@ def make_pred_multilabel(dataloader, model, nih_labels):
 
         outputs = model(inputs)
         probs = outputs.cpu().data.numpy()
-
+        
+        # TODO: fix this mess (what does it even do?)
         # get predictions and true values for each item in batch
         for j in range(0, batch_size[0]):
             thisrow = {}
             truerow = {}
-            thisrow["Image Index"] = dataset.df.index[BATCH_SIZE * i + j]
-            truerow["Image Index"] = dataset.df.index[BATCH_SIZE * i + j]
+            thisrow["Image Index"] = dataloader.dataset.df.index[BATCH_SIZE * i + j]
+            truerow["Image Index"] = dataloader.dataset.df.index[BATCH_SIZE * i + j]
 
             # iterate over each entry in prediction vector; each corresponds to
             # individual label
