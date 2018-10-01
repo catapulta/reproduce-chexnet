@@ -52,9 +52,9 @@ def make_pred_multilabel(dataloader, model, nih_labels):
 
             # iterate over each entry in prediction vector; each corresponds to
             # individual label
-            for k in range(len(dataset.PRED_LABEL)):
-                thisrow["prob_" + dataset.PRED_LABEL[k]] = probs[j, k]
-                truerow[dataset.PRED_LABEL[k]] = true_labels[j, k]
+            for k in range(len(dataloader.dataset.PRED_LABEL)):
+                thisrow["prob_" + dataloader.dataset.PRED_LABEL[k]] = probs[j, k]
+                truerow[dataloader.dataset.PRED_LABEL[k]] = true_labels[j, k]
 
             pred_df = pred_df.append(thisrow, ignore_index=True)
             true_df = true_df.append(truerow, ignore_index=True)
