@@ -11,20 +11,17 @@ import numpy as np
 import os
 
 
-def make_pred_multilabel(dataloader, model, nih_labels, num_loader_workers):
+def make_pred_multilabel(dataloader, model, nih_labels):
     """
     Gives predictions for test fold and calculates AUCs using previously trained model
 
     Args:
-        data_transforms: torchvision transforms to preprocess raw images; same as validation transforms
+        dataloader: torch dataloader
         model: densenet-121 from torchvision previously fine tuned to training data
     Returns:
         pred_df: dataframe containing individual predictions and ground truth for each test image
         auc_df: dataframe containing aggregate AUCs by train/test tuples
     """
-
-    # calc preds in batches of 16, can reduce if your GPU has less RAM
-    BATCH_SIZE = 16
 
     # set model to eval mode; required for proper predictions given use of batchnorm
     model.train(False)
