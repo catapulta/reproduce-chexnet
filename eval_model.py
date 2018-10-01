@@ -11,14 +11,13 @@ import numpy as np
 import os
 
 
-def make_pred_multilabel(data_transforms, model, PATH_TO_IMAGES, nih_labels, num_loader_workers):
+def make_pred_multilabel(dataloader, model, nih_labels, num_loader_workers):
     """
     Gives predictions for test fold and calculates AUCs using previously trained model
 
     Args:
         data_transforms: torchvision transforms to preprocess raw images; same as validation transforms
         model: densenet-121 from torchvision previously fine tuned to training data
-        PATH_TO_IMAGES: path at which NIH images can be found
     Returns:
         pred_df: dataframe containing individual predictions and ground truth for each test image
         auc_df: dataframe containing aggregate AUCs by train/test tuples
@@ -29,17 +28,6 @@ def make_pred_multilabel(data_transforms, model, PATH_TO_IMAGES, nih_labels, num
 
     # set model to eval mode; required for proper predictions given use of batchnorm
     model.train(False)
-
-    # create dataloader
-    dataset = CXR.CXRDataset(
-        path_to_images=PATH_TO_IMAGES,
-        fold="test",
-        transform=data_transforms['val'],
-        nih_labels=nih_labels
-        )
-    dataloader = torch.utils.data.DataLoader(
-        dataset, BATCH_SIZE, shuffle=False, num_workers=num_loader_workers)
-    size = len(dataset)
 
     # create empty dfs
     pred_df = pd.DataFrame(columns=["Image Index"])
