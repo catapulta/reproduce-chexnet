@@ -44,7 +44,7 @@ def make_pred_multilabel(dataloader, model, nih_labels):
         
         # TODO: fix this mess (what does it even do?)
         # get predictions and true values for each item in batch
-        for j in range(0, batch_size]):
+        for j in range(0, batch_size):
             thisrow = {}
             truerow = {}
             thisrow["Image Index"] = dataloader.dataset.df.index[batch_size * i + j]
@@ -60,7 +60,7 @@ def make_pred_multilabel(dataloader, model, nih_labels):
             true_df = true_df.append(truerow, ignore_index=True)
 
         if(i % 10 == 0):
-            print(str(i * BATCH_SIZE))
+            print(str(i * batch_size))
 
     auc_df = pd.DataFrame(columns=["label", "auc"])
 
