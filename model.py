@@ -26,12 +26,32 @@ import pandas as pd
 import numpy as np
 import csv
 
-import cxr_dataset as CXR
+import load_data as CXR
 import eval_model as E
 
 use_gpu = torch.cuda.is_available()
 gpu_count = torch.cuda.device_count()
 print("Available GPU count:" + str(gpu_count))
+
+
+class CheXNet121(nn.Module):
+    """
+    Takes DenseNet121 from torchvision pretrained models and replaces the
+    final fully connected layer with one that has a single output, after which
+    we apply a sigmoid nonlinearity.
+    """
+    def __init__(self, out_size):
+        super(CheXNet121, self).__init__()
+        self.densenet121 = torchvision.models.densenet121(pretrained=True)
+        clf_input = self.densenet121.classifier.in_features
+        self.densenet121.classifier = nn.Sequential(
+            nn.Linear(clf_input, out_size),
+            nn.Sigmoid()
+        )
+
+    def forward(self, x):
+        x = self.densenet121(x)
+        return x
 
 
 def checkpoint(model, best_loss, epoch, LR):

@@ -1,4 +1,4 @@
-import cxr_dataset as CXR
+import load_data as CXR
 import eval_model as E
 import model as M
 

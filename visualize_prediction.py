@@ -20,7 +20,7 @@ import pandas as pd
 
 # import other modules
 from copy import deepcopy
-import cxr_dataset as CXR
+import load_data as CXR
 import eval_model as E
 
 def calc_cam(x, label, model):
